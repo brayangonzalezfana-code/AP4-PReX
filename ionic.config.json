@@ -1,0 +1,7 @@
+{
+  "name": "prex",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
