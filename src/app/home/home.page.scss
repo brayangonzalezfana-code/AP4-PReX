@@ -1,0 +1,168 @@
+ion-content {
+  --background: #eef4f4;
+}
+
+.contenedor {
+  max-width: 420px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  margin: auto;
+  border-radius: 20px;
+  background: #14b8a6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 38px;
+  color: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,.15);
+}
+
+h1 {
+  text-align: center;
+  margin-top: 18px;
+  margin-bottom: 5px;
+  color: #1e293b;
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 25px;
+}
+
+.estado-online {
+  background: #dcfce7;
+  border: 2px solid #22c55e;
+  color: #166534;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.estado-offline {
+  background: #fee2e2;
+  border: 2px solid #ef4444;
+  color: #991b1b;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.login-card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: 0 15px 35px rgba(0,0,0,.12);
+}
+
+.login-card h2 {
+  text-align: center;
+  color: #1e293b;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.label-rol {
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.roles {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.rol-btn {
+  flex: 1;
+  background: white;
+  border: 2px solid #dbe2ea;
+  border-radius: 12px;
+  padding: 15px;
+  min-height: 95px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  color: #334155;
+  font-weight: 600;
+}
+
+.rol-btn:hover {
+  border-color: #14b8a6;
+  background: #f0fdfa;
+}
+
+.icono-rol {
+  font-size: 34px;
+}
+
+.campo {
+  margin-bottom: 15px;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 6px;
+  color: #334155;
+  font-weight: 600;
+}
+
+ion-input {
+  --background: #ffffff;
+  --color: #1e293b;
+  --placeholder-color: #94a3b8;
+
+  border: 1px solid #dbe2ea;
+  border-radius: 10px;
+
+  padding-left: 10px;
+}
+
+ion-button {
+  margin-top: 15px;
+
+  --background: #7dd3c7;
+  --background-hover: #5bc4b6;
+
+  --border-radius: 12px;
+
+  height: 50px;
+
+  font-weight: 700;
+  text-transform: none;
+}
+
+.olvide {
+  text-align: center;
+  margin-top: 15px;
+  color: #14b8a6;
+  font-size: 14px;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  color: #64748b;
+  font-size: 13px;
+}
+.mensaje-offline {
+  text-align: center;
+  color: #ef4444;
+  font-weight: 600;
+  margin-bottom: 15px;
+}

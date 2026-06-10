@@ -1,0 +1,105 @@
+<ion-content>
+
+  <div class="contenedor">
+
+    <!-- Logo -->
+    <div class="logo">
+      💚
+    </div>
+
+    <!-- Nombre -->
+    <h1>PReX</h1>
+
+    <p class="subtitulo">
+      Control inteligente de medicamentos
+    </p>
+
+    <!-- Estado de Red -->
+    @if (networkService.isOnline) {
+
+      <div class="estado-online">
+        🟢 Conectado a Internet
+      </div>
+
+    } @else {
+
+      <div class="estado-offline">
+        🔴 Sin conexión a Internet
+      </div>
+
+      <p class="mensaje-offline">
+        La aplicación está funcionando en modo offline.
+      </p>
+
+    }
+
+    <!-- Tarjeta Login -->
+    <div class="login-card">
+
+      <h2>Iniciar Sesión</h2>
+
+      <p class="label-rol">
+        Selecciona tu rol
+      </p>
+
+      <div class="roles">
+
+        <button class="rol-btn">
+          <div class="icono-rol">🧑</div>
+          <span>Paciente</span>
+        </button>
+
+        <button class="rol-btn">
+          <div class="icono-rol">👨‍⚕️</div>
+          <span>Médico</span>
+        </button>
+
+      </div>
+
+      <!-- Usuario -->
+      <div class="campo">
+
+        <label>Usuario</label>
+
+        <ion-input
+          [(ngModel)]="usuario"
+          placeholder="Ingresa tu usuario">
+        </ion-input>
+
+      </div>
+
+      <!-- Contraseña -->
+      <div class="campo">
+
+        <label>Contraseña</label>
+
+        <ion-input
+          [(ngModel)]="password"
+          type="password"
+          placeholder="Ingresa tu contraseña">
+        </ion-input>
+
+      </div>
+
+      <!-- Botón -->
+      <ion-button
+        expand="block"
+        (click)="ingresar()">
+
+        Ingresar
+
+      </ion-button>
+
+      <p class="olvide">
+        ¿Olvidaste tu contraseña?
+      </p>
+
+    </div>
+
+    <p class="footer">
+      PReX © 2026 - República Dominicana
+    </p>
+
+  </div>
+
+</ion-content>
