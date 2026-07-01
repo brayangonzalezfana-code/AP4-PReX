@@ -1,0 +1,156 @@
+<ion-content [fullscreen]="true">
+
+  <main class="pagina-reportes">
+
+    <header class="encabezado">
+      <div class="marca" aria-label="PReX">
+        <div class="logo" aria-hidden="true">Rx</div>
+        <span>PReX</span>
+      </div>
+
+      <ion-button
+        class="boton-volver"
+        fill="clear"
+        type="button"
+        (click)="volver()">
+        &larr; Volver
+      </ion-button>
+
+      <p class="etiqueta">Resumen m&eacute;dico</p>
+      <h1>Reportes</h1>
+      <p class="descripcion">
+        Consulta un panorama general de pacientes, prescripciones y actividad.
+      </p>
+    </header>
+
+    @if (cargando) {
+      <section class="estado-panel" aria-live="polite">
+        <span class="indicador-carga" aria-hidden="true"></span>
+        <h2>Cargando reportes</h2>
+        <p>Estamos calculando los indicadores principales.</p>
+      </section>
+    } @else if (mensajeError) {
+      <section class="estado-panel estado-error" role="alert">
+        <div class="estado-icono" aria-hidden="true">!</div>
+        <h2>No pudimos cargar reportes</h2>
+        <p>{{ mensajeError }}</p>
+      </section>
+    } @else {
+      <section class="filtros" aria-label="Filtros de reportes">
+        <ion-select
+          class="control-filtro"
+          label="Paciente"
+          label-placement="stacked"
+          interface="popover"
+          [(ngModel)]="pacienteFiltro"
+          (ionChange)="actualizarResumen()">
+          <ion-select-option value="todos">Todos</ion-select-option>
+          @for (paciente of pacientesRelacionados; track paciente.id) {
+            <ion-select-option [value]="paciente.id">{{ paciente.nombre }} {{ paciente.apellido }}</ion-select-option>
+          }
+        </ion-select>
+
+        <ion-select
+          class="control-filtro"
+          label="Estado"
+          label-placement="stacked"
+          interface="popover"
+          [(ngModel)]="estadoFiltro"
+          (ionChange)="actualizarResumen()">
+          <ion-select-option value="todos">Todos</ion-select-option>
+          <ion-select-option value="activa">Activa</ion-select-option>
+          <ion-select-option value="procesando">En proceso</ion-select-option>
+          <ion-select-option value="completada">Completada</ion-select-option>
+          <ion-select-option value="anulada">Anulada</ion-select-option>
+        </ion-select>
+
+        <ion-input
+          class="control-filtro"
+          label="Desde"
+          label-placement="stacked"
+          type="date"
+          [(ngModel)]="fechaDesde"
+          (ionInput)="actualizarResumen()">
+        </ion-input>
+        <ion-input
+          class="control-filtro"
+          label="Hasta"
+          label-placement="stacked"
+          type="date"
+          [(ngModel)]="fechaHasta"
+          (ionInput)="actualizarResumen()">
+        </ion-input>
+      </section>
+
+      <section class="metricas" aria-label="Resumen médico">
+        <ion-card class="metrica-card pacientes">
+          <ion-card-header>
+            <p class="card-etiqueta">Usuarios</p>
+            <ion-card-title>{{ resumen.pacientes }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <h2>Pacientes</h2>
+            <p>Pacientes registrados en PReX.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="metrica-card prescripciones">
+          <ion-card-header>
+            <p class="card-etiqueta">Tratamientos</p>
+            <ion-card-title>{{ resumen.prescripciones }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <h2>Prescripciones</h2>
+            <p>Total de prescripciones creadas.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="metrica-card tomas">
+          <ion-card-header>
+            <p class="card-etiqueta">Seguimiento</p>
+            <ion-card-title>{{ resumen.tomas }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <h2>Tomas registradas</h2>
+            <p>Confirmaciones realizadas por pacientes.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="metrica-card activos">
+          <ion-card-header>
+            <p class="card-etiqueta">Activos</p>
+            <ion-card-title>{{ resumen.tratamientosActivos }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <h2>Tratamientos activos</h2>
+            <p>Prescripciones vigentes en la plataforma.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="metrica-card prescripciones">
+          <ion-card-header>
+            <p class="card-etiqueta">Estados</p>
+            <ion-card-title>{{ resumen.tratamientosCompletados }} / {{ resumen.tratamientosAnulados }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <h2>Completadas y anuladas</h2>
+            <p>Tratamientos cerrados o suspendidos en el historial.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="metrica-card tomas">
+          <ion-card-header>
+            <p class="card-etiqueta">Adherencia</p>
+            <ion-card-title>{{ resumen.adherenciaGeneral }}%</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <h2>Adherencia general</h2>
+            <p>Indicador estimado de cumplimiento global.</p>
+          </ion-card-content>
+        </ion-card>
+      </section>
+    }
+
+  </main>
+
+</ion-content>

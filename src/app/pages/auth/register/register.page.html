@@ -1,0 +1,125 @@
+<ion-content [fullscreen]="true">
+
+  <main class="contenedor-register">
+
+    <section class="marca" aria-label="PReX">
+
+      <div class="logo" aria-hidden="true">
+        Rx
+      </div>
+
+      <h1>Crear Cuenta</h1>
+
+      <p class="subtitulo">
+        Control inteligente de medicamentos
+      </p>
+
+    </section>
+
+    <section class="register-card" aria-labelledby="register-title">
+
+      <h2 id="register-title">
+        Datos de registro
+      </h2>
+
+      <div class="campo">
+
+        <label for="nombre">
+          Nombre
+        </label>
+
+        <ion-input
+          id="nombre"
+          [(ngModel)]="nombre"
+          type="text"
+          autocomplete="given-name"
+          placeholder="Ingresa tu nombre">
+        </ion-input>
+
+      </div>
+
+      <div class="campo">
+
+        <label for="apellido">
+          Apellido
+        </label>
+
+        <ion-input
+          id="apellido"
+          [(ngModel)]="apellido"
+          type="text"
+          autocomplete="family-name"
+          placeholder="Ingresa tu apellido">
+        </ion-input>
+
+      </div>
+
+      <div class="campo">
+
+        <label for="correo">
+          Correo electr&oacute;nico
+        </label>
+
+        <ion-input
+          id="correo"
+          [(ngModel)]="correo"
+          type="email"
+          autocomplete="email"
+          placeholder="Ingresa tu correo">
+        </ion-input>
+
+      </div>
+
+      <div class="campo">
+
+        <label for="usuario">
+          Usuario
+        </label>
+
+        <ion-input
+          id="usuario"
+          [(ngModel)]="usuario"
+          type="text"
+          autocomplete="username"
+          placeholder="Crea tu usuario">
+        </ion-input>
+
+      </div>
+
+      <div class="campo">
+
+        <label for="password">
+          Contrase&ntilde;a
+        </label>
+
+        <ion-input
+          id="password"
+          [(ngModel)]="password"
+          type="password"
+          autocomplete="new-password"
+          placeholder="Crea tu contrase&ntilde;a">
+        </ion-input>
+
+      </div>
+
+      <ion-button
+        expand="block"
+        type="button"
+        (click)="registrar()">
+
+        Registrarme
+
+      </ion-button>
+
+      <p class="login-link">
+        &iquest;Ya tienes cuenta?
+        <a routerLink="/login">
+          Iniciar sesi&oacute;n
+        </a>
+      </p>
+
+    </section>
+
+  </main>
+
+</ion-content>

@@ -1,0 +1,248 @@
+ion-content {
+  --background: #eef4f4;
+}
+
+.pagina-prescripcion {
+  width: 100%;
+  max-width: 900px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 28px 20px 40px;
+}
+
+.encabezado {
+  margin-bottom: 26px;
+}
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 28px;
+  color: #1e293b;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  background: #14b8a6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 800;
+  box-shadow: 0 10px 22px rgba(15, 118, 110, 0.22);
+}
+
+.titulo {
+  max-width: 640px;
+}
+
+.etiqueta,
+.paso {
+  margin: 0 0 8px;
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: #172033;
+  font-size: clamp(30px, 5vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.descripcion {
+  margin: 10px 0 0;
+  color: #64748b;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.formulario-card {
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.1);
+}
+
+.card-encabezado {
+  padding-bottom: 22px;
+  border-bottom: 1px solid #e8eef3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.card-encabezado h2 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.estado {
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #ccfbf1;
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.formulario {
+  padding-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.campo-completo {
+  grid-column: 1 / -1;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 8px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+ion-input,
+ion-textarea {
+  --background: #f8fafc;
+  --color: #1e293b;
+  --placeholder-color: #94a3b8;
+  --padding-start: 14px;
+  --padding-end: 14px;
+
+  width: 100%;
+  border: 1px solid #dbe4ea;
+  border-radius: 13px;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+ion-input {
+  min-height: 52px;
+}
+
+ion-textarea {
+  --padding-top: 13px;
+  --padding-bottom: 13px;
+
+  min-height: 120px;
+}
+
+ion-input.ion-focused,
+ion-textarea.ion-focused {
+  --background: #ffffff;
+
+  border-color: #14b8a6;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+}
+
+.acciones {
+  margin-top: 4px;
+  padding-top: 22px;
+  border-top: 1px solid #e8eef3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.acciones p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+ion-button {
+  min-width: 210px;
+  height: 50px;
+  margin: 0;
+
+  --background: #14b8a6;
+  --background-hover: #0f766e;
+  --background-activated: #0d9488;
+  --border-radius: 12px;
+  --box-shadow: 0 10px 20px rgba(20, 184, 166, 0.24);
+
+  font-weight: 800;
+  text-transform: none;
+}
+
+.boton-volver {
+  width: auto;
+  min-width: 0;
+  height: 40px;
+  margin: 0 0 18px;
+
+  --background: transparent;
+  --background-hover: rgba(20, 184, 166, 0.08);
+  --background-activated: rgba(20, 184, 166, 0.14);
+  --border-radius: 999px;
+  --box-shadow: none;
+  --color: #0f766e;
+
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: none;
+}
+
+@media (max-width: 640px) {
+  .pagina-prescripcion {
+    padding: 22px 16px 32px;
+  }
+
+  .marca {
+    margin-bottom: 22px;
+  }
+
+  .formulario-card {
+    padding: 22px 18px;
+    border-radius: 20px;
+  }
+
+  .card-encabezado {
+    align-items: center;
+  }
+
+  .formulario {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .campo-completo {
+    grid-column: auto;
+  }
+
+  .acciones {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  ion-button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .boton-volver {
+    width: auto;
+  }
+}

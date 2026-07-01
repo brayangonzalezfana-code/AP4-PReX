@@ -1,0 +1,128 @@
+<ion-content [fullscreen]="true">
+
+  <main class="pagina-prescripciones">
+
+    <header class="encabezado">
+
+      <div class="marca" aria-label="PReX">
+        <div class="logo" aria-hidden="true">Rx</div>
+        <span>PReX</span>
+      </div>
+
+      <ion-button
+        class="boton-volver"
+        fill="clear"
+        type="button"
+        (click)="volver()">
+        &larr; Volver
+      </ion-button>
+
+      <p class="etiqueta">Mi tratamiento</p>
+      <h1>Mis prescripciones</h1>
+      <p class="descripcion">
+        Consulta las indicaciones y fechas de tus tratamientos m&eacute;dicos.
+      </p>
+
+    </header>
+
+    @if (cargando) {
+      <section class="estado-vacio" aria-live="polite">
+        <span class="indicador-carga" aria-hidden="true"></span>
+        <h2>Cargando prescripciones</h2>
+        <p>Estamos consultando tus tratamientos.</p>
+      </section>
+    } @else if (mensajeError) {
+      <section class="estado-vacio estado-error" role="alert">
+        <div class="estado-icono" aria-hidden="true">!</div>
+        <h2>No pudimos mostrar tus prescripciones</h2>
+        <p>{{ mensajeError }}</p>
+      </section>
+    } @else if (prescripciones.length === 0) {
+      <section class="estado-vacio">
+        <div class="estado-icono" aria-hidden="true">Rx</div>
+        <h2>A&uacute;n no tienes prescripciones</h2>
+        <p>Cuando tu m&eacute;dico cree una, aparecer&aacute; en esta pantalla.</p>
+      </section>
+    } @else {
+      <section class="lista" aria-label="Prescripciones del paciente">
+
+        @for (prescripcion of prescripciones; track prescripcion.id) {
+          <ion-card class="prescripcion-card">
+
+            <ion-card-header>
+              <div class="card-titulo">
+                <div>
+                  <p class="card-etiqueta">Medicamento</p>
+                  <ion-card-title>
+                    {{ prescripcion.medicamento }}
+                  </ion-card-title>
+                </div>
+
+                <span
+                  class="estado"
+                  [class.inactiva]="!puedeMarcarToma(prescripcion)">
+                  {{ formatearEstado(prescripcion.estado) }}
+                </span>
+              </div>
+            </ion-card-header>
+
+            <ion-card-content>
+
+              <div class="detalles">
+                <div class="detalle">
+                  <span>Dosis</span>
+                  <strong>{{ prescripcion.dosis }}</strong>
+                </div>
+
+                <div class="detalle">
+                  <span>Frecuencia</span>
+                  <strong>{{ prescripcion.frecuencia }}</strong>
+                </div>
+
+                <div class="detalle">
+                  <span>Hora</span>
+                  <strong>{{ prescripcion.hora }}</strong>
+                </div>
+
+                <div class="detalle">
+                  <span>Fecha de inicio</span>
+                  <strong>
+                    {{ formatearFecha(prescripcion.fechaInicio) }}
+                  </strong>
+                </div>
+
+                <div class="detalle">
+                  <span>Fecha de fin</span>
+                  <strong>
+                    {{ formatearFecha(prescripcion.fechaFin) }}
+                  </strong>
+                </div>
+              </div>
+
+              <div class="observaciones">
+                <span>Observaciones</span>
+                <p>
+                  {{ prescripcion.observaciones || 'Sin observaciones.' }}
+                </p>
+              </div>
+
+              <ion-button
+                class="boton-toma"
+                expand="block"
+                type="button"
+                [disabled]="!puedeMarcarToma(prescripcion) || yaRegistrada(prescripcion)"
+                (click)="marcarComoTomado(prescripcion)">
+                {{ textoBotonToma(prescripcion) }}
+              </ion-button>
+
+            </ion-card-content>
+
+          </ion-card>
+        }
+
+      </section>
+    }
+
+  </main>
+
+</ion-content>

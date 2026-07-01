@@ -1,0 +1,85 @@
+<ion-content [fullscreen]="true">
+
+  <main class="pagina-listado">
+
+    <header class="encabezado">
+      <div class="marca" aria-label="PReX">
+        <div class="logo" aria-hidden="true">Rx</div>
+        <span>PReX</span>
+      </div>
+
+      <ion-button
+        class="boton-volver"
+        fill="clear"
+        type="button"
+        (click)="volver()">
+        &larr; Volver
+      </ion-button>
+
+      <p class="etiqueta">Tratamiento activo</p>
+      <h1>Recordatorios</h1>
+      <p class="descripcion">
+        Consulta los horarios y detalles de tus medicamentos activos.
+      </p>
+    </header>
+
+    @if (cargando) {
+      <section class="estado-panel" aria-live="polite">
+        <span class="indicador-carga" aria-hidden="true"></span>
+        <h2>Cargando recordatorios</h2>
+        <p>Estamos consultando tus prescripciones activas.</p>
+      </section>
+    } @else if (mensajeError) {
+      <section class="estado-panel estado-error" role="alert">
+        <div class="estado-icono" aria-hidden="true">!</div>
+        <h2>No pudimos mostrar tus recordatorios</h2>
+        <p>{{ mensajeError }}</p>
+      </section>
+    } @else if (recordatorios.length === 0) {
+      <section class="estado-panel">
+        <div class="estado-icono" aria-hidden="true">Rx</div>
+        <h2>No tienes recordatorios activos</h2>
+        <p>Cuando tengas prescripciones activas, aparecer&aacute;n aqu&iacute;.</p>
+      </section>
+    } @else {
+      <section class="lista" aria-label="Recordatorios del paciente">
+        @for (recordatorio of recordatorios; track recordatorio.id) {
+          <ion-card class="item-card">
+            <ion-card-header>
+              <div class="card-titulo">
+                <div>
+                  <p class="card-etiqueta">Medicamento</p>
+                  <ion-card-title>{{ recordatorio.medicamento }}</ion-card-title>
+                </div>
+                <span class="estado">Activa</span>
+              </div>
+            </ion-card-header>
+
+            <ion-card-content>
+              <div class="detalles">
+                <div>
+                  <span>Dosis</span>
+                  <strong>{{ recordatorio.dosis }}</strong>
+                </div>
+                <div>
+                  <span>Frecuencia</span>
+                  <strong>{{ recordatorio.frecuencia }}</strong>
+                </div>
+                <div>
+                  <span>Hora</span>
+                  <strong>{{ recordatorio.hora }}</strong>
+                </div>
+                <div>
+                  <span>Estado</span>
+                  <strong>Recordatorio activo</strong>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        }
+      </section>
+    }
+
+  </main>
+
+</ion-content>

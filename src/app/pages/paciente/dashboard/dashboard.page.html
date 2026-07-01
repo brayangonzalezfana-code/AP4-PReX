@@ -1,0 +1,69 @@
+<ion-content [fullscreen]="true">
+
+  <main class="dashboard">
+
+    <header class="encabezado">
+
+      <div class="marca">
+
+        <div class="logo" aria-hidden="true">
+          Rx
+        </div>
+
+        <span>PReX</span>
+
+      </div>
+
+      <h1>
+        Dashboard del Paciente
+      </h1>
+
+    </header>
+
+    <section class="tarjetas" aria-label="Opciones del paciente">
+
+      <article
+        class="tarjeta medicamentos"
+        (click)="irAMisPrescripciones()">
+
+        <h2>Mis Medicamentos</h2>
+
+      </article>
+
+      <article
+        class="tarjeta historial"
+        (click)="irAHistorial()">
+
+        <h2>Historial</h2>
+
+      </article>
+
+      <article
+        class="tarjeta recordatorios"
+        (click)="irARecordatorios()">
+
+        <h2>Recordatorios</h2>
+
+      </article>
+
+      <article
+        class="tarjeta estadisticas"
+        (click)="irAEstadisticas()">
+
+        <h2>Estadísticas</h2>
+
+      </article>
+
+      <article
+        class="tarjeta perfil"
+        (click)="irAPerfil()">
+
+        <h2>Perfil</h2>
+
+      </article>
+
+    </section>
+
+  </main>
+
+</ion-content>

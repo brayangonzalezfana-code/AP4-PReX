@@ -1,0 +1,296 @@
+ion-content {
+  --background: #eef4f4;
+}
+
+.pagina-perfil {
+  width: 100%;
+  max-width: 780px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 28px 20px 40px;
+}
+
+.encabezado {
+  margin-bottom: 28px;
+}
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 28px;
+  color: #1e293b;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  background: #14b8a6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 800;
+  box-shadow: 0 10px 22px rgba(15, 118, 110, 0.22);
+}
+
+.etiqueta,
+.card-etiqueta {
+  margin: 0 0 7px;
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: #172033;
+  font-size: clamp(30px, 5vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.descripcion {
+  margin: 10px 0 0;
+  color: #64748b;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.perfil-card {
+  margin: 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.1);
+  overflow: hidden;
+}
+
+ion-card-header {
+  padding: 28px;
+  border-bottom: 1px solid #e8eef3;
+  background: linear-gradient(135deg, #f0fdfa, #f8fafc);
+}
+
+.perfil-superior {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.identidad {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.avatar {
+  width: 68px;
+  height: 68px;
+  flex: 0 0 auto;
+  border-radius: 20px;
+  background: #14b8a6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 850;
+  box-shadow: 0 10px 22px rgba(15, 118, 110, 0.2);
+}
+
+ion-card-title {
+  color: #1e293b;
+  font-size: clamp(22px, 4vw, 28px);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.estado-cuenta {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #ccfbf1;
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.estado-cuenta.inactiva {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+ion-card-content {
+  padding: 28px;
+}
+
+.datos {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.dato {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid #e8eef3;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.dato dt {
+  margin-bottom: 6px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.dato dd {
+  margin: 0;
+  color: #263449;
+  font-size: 15px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.acciones {
+  margin-top: 26px;
+  padding-top: 24px;
+  border-top: 1px solid #e8eef3;
+}
+
+ion-button {
+  height: 50px;
+  margin: 0;
+
+  --border-radius: 12px;
+  --box-shadow: 0 10px 20px rgba(220, 38, 38, 0.18);
+
+  font-weight: 800;
+  text-transform: none;
+}
+
+.boton-volver {
+  width: auto;
+  min-width: 0;
+  height: 40px;
+  margin: 0 0 18px;
+
+  --background: transparent;
+  --background-hover: rgba(20, 184, 166, 0.08);
+  --background-activated: rgba(20, 184, 166, 0.14);
+  --border-radius: 999px;
+  --box-shadow: none;
+  --color: #0f766e;
+
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: none;
+}
+
+.mensaje-error {
+  margin: 0 0 20px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.estado-panel {
+  min-height: 300px;
+  padding: 40px 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.estado-icono,
+.indicador-carga {
+  width: 54px;
+  height: 54px;
+  margin-bottom: 18px;
+  border-radius: 16px;
+}
+
+.estado-icono {
+  background: #fee2e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b91c1c;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.indicador-carga {
+  border: 5px solid #ccfbf1;
+  border-top-color: #14b8a6;
+  animation: girar 800ms linear infinite;
+}
+
+.estado-panel h2 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.estado-panel p {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .pagina-perfil {
+    padding: 22px 16px 32px;
+  }
+
+  .marca {
+    margin-bottom: 22px;
+  }
+
+  ion-card-header,
+  ion-card-content {
+    padding: 22px 18px;
+  }
+
+  .perfil-superior,
+  .identidad {
+    flex-direction: column;
+  }
+
+  .estado-cuenta {
+    width: 100%;
+    text-align: center;
+  }
+
+  .datos {
+    grid-template-columns: 1fr;
+  }
+}

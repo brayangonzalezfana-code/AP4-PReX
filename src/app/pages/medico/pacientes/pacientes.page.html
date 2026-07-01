@@ -1,0 +1,205 @@
+<ion-content [fullscreen]="true">
+
+  <main class="pagina-listado">
+
+    <header class="encabezado">
+      <div class="marca" aria-label="PReX">
+        <div class="logo" aria-hidden="true">Rx</div>
+        <span>PReX</span>
+      </div>
+
+      <ion-button
+        class="boton-volver"
+        fill="clear"
+        type="button"
+        (click)="volver()">
+        &larr; Volver
+      </ion-button>
+
+      <p class="etiqueta">Atenci&oacute;n m&eacute;dica</p>
+      <h1>Pacientes</h1>
+      <p class="descripcion">
+        Busca pacientes registrados, agr&eacute;galos a tu lista y consulta la relaci&oacute;n cl&iacute;nica.
+      </p>
+    </header>
+
+    @if (cargando) {
+      <section class="estado-panel" aria-live="polite">
+        <span class="indicador-carga" aria-hidden="true"></span>
+        <h2>Cargando pacientes</h2>
+        <p>Estamos consultando los usuarios registrados.</p>
+      </section>
+    } @else if (mensajeError) {
+      <section class="estado-panel estado-error" role="alert">
+        <div class="estado-icono" aria-hidden="true">!</div>
+        <h2>No pudimos mostrar pacientes</h2>
+        <p>{{ mensajeError }}</p>
+      </section>
+    } @else {
+      <section class="lista" aria-label="Gestion de pacientes">
+        <ion-card class="item-card">
+          <ion-card-header>
+            <p class="card-etiqueta">Agregar paciente</p>
+            <ion-card-title>Relaci&oacute;n cl&iacute;nica</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-input
+              label="Buscar paciente"
+              label-placement="stacked"
+              [(ngModel)]="busquedaPaciente"
+              placeholder="Nombre, usuario o correo">
+            </ion-input>
+
+            @if (pacientesFiltrados.length > 0) {
+              <div class="opciones-pacientes">
+                @for (paciente of pacientesFiltrados; track paciente.id) {
+                  <button
+                    type="button"
+                    class="opcion-paciente"
+                    [class.seleccionada]="paciente.id === pacienteSeleccionadoId"
+                    (click)="seleccionarPaciente(paciente)">
+                    {{ paciente.nombre }} {{ paciente.apellido }} &middot; {{ paciente.usuario }}
+                  </button>
+                }
+              </div>
+            }
+
+            <ion-input
+              label="Motivo de consulta"
+              label-placement="stacked"
+              [(ngModel)]="motivoConsulta"
+              placeholder="Ej. Seguimiento de presi&oacute;n arterial"
+              class="campo-separado">
+            </ion-input>
+
+            <ion-textarea
+              label="Antecedentes"
+              label-placement="stacked"
+              [(ngModel)]="antecedentes"
+              autoGrow="true"
+              rows="2"
+              placeholder="Antecedentes relevantes">
+            </ion-textarea>
+
+            <ion-input
+              label="Alergias"
+              label-placement="stacked"
+              [(ngModel)]="alergias"
+              placeholder="Sin alergias">
+            </ion-input>
+
+            <ion-textarea
+              label="Observaciones"
+              label-placement="stacked"
+              [(ngModel)]="observaciones"
+              autoGrow="true"
+              rows="2"
+              placeholder="Observaciones cl&iacute;nicas iniciales">
+            </ion-textarea>
+
+            <ion-button
+              expand="block"
+              type="button"
+              class="boton-agregar"
+              [disabled]="agregando"
+              (click)="agregarPaciente()">
+              {{ agregando ? 'Agregando...' : 'Agregar paciente' }}
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+
+        @if (pacientes.length === 0) {
+          <section class="estado-panel">
+            <div class="estado-icono" aria-hidden="true">Rx</div>
+            <h2>No tienes pacientes agregados</h2>
+            <p>Busca usuarios activos y agr&eacute;galos para iniciar el seguimiento cl&iacute;nico.</p>
+          </section>
+        } @else {
+          <ion-card class="item-card busqueda-agregados">
+            <ion-card-header>
+              <p class="card-etiqueta">Lista cl&iacute;nica</p>
+              <ion-card-title>Pacientes agregados</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-input
+                label="Buscar en mi lista"
+                label-placement="stacked"
+                [(ngModel)]="busquedaPacientesAgregados"
+                placeholder="Nombre, apellido, usuario o correo">
+              </ion-input>
+              <p class="contador-resultados">
+                {{ pacientesAgregadosFiltrados.length }} de {{ pacientes.length }} pacientes
+              </p>
+            </ion-card-content>
+          </ion-card>
+
+          @if (pacientesAgregadosFiltrados.length === 0) {
+            <section class="estado-panel">
+              <div class="estado-icono" aria-hidden="true">Rx</div>
+              <h2>Sin resultados</h2>
+              <p>No encontramos pacientes agregados con esa b&uacute;squeda.</p>
+            </section>
+          } @else {
+            @for (resumen of pacientesAgregadosFiltrados; track resumen.paciente.id) {
+              <ion-card class="item-card">
+                <ion-card-header>
+                  <div class="card-titulo">
+                    <div>
+                      <p class="card-etiqueta">Paciente</p>
+                      <ion-card-title>
+                        {{ resumen.paciente.nombre }} {{ resumen.paciente.apellido }}
+                      </ion-card-title>
+                    </div>
+                    <span
+                      class="estado"
+                      [class.inactivo]="!resumen.paciente.activo">
+                      {{ formatearEstado(resumen.paciente.activo) }}
+                    </span>
+                  </div>
+                </ion-card-header>
+
+                <ion-card-content>
+                  <div class="detalles datos-basicos">
+                    <div>
+                      <span>Usuario</span>
+                      <strong>{{ resumen.paciente.usuario }}</strong>
+                    </div>
+                    <div>
+                      <span>Correo</span>
+                      <strong>{{ resumen.paciente.correo }}</strong>
+                    </div>
+                    <div>
+                      <span>Vinculado desde</span>
+                      <strong>{{ formatearFecha(resumen.relacion.fechaRegistro) }}</strong>
+                    </div>
+                </div>
+
+                  <div class="datos-clinicos" aria-label="Datos clinicos de la relacion">
+                    <div>
+                      <span>Motivo de consulta</span>
+                      <strong>{{ resumen.relacion.motivoConsulta || 'No especificado' }}</strong>
+                    </div>
+                    <div>
+                      <span>Antecedentes</span>
+                      <strong>{{ resumen.relacion.antecedentes || 'No especificados' }}</strong>
+                    </div>
+                    <div>
+                      <span>Alergias</span>
+                      <strong>{{ resumen.relacion.alergias || 'No especificadas' }}</strong>
+                    </div>
+                    <div>
+                      <span>Observaciones</span>
+                      <strong>{{ resumen.relacion.observaciones || 'Sin observaciones' }}</strong>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            }
+          }
+        }
+      </section>
+    }
+
+  </main>
+
+</ion-content>

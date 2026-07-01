@@ -1,0 +1,123 @@
+<ion-content [fullscreen]="true">
+
+  <main class="dashboard">
+
+    <header class="encabezado">
+
+      <div class="marca" aria-label="PReX">
+        <div class="logo" aria-hidden="true">Rx</div>
+        <span>PReX</span>
+      </div>
+
+      <p class="etiqueta">Administraci&oacute;n</p>
+      <h1>Panel de administraci&oacute;n</h1>
+      <p class="descripcion">
+        Resumen general de usuarios y actividad de la plataforma.
+      </p>
+
+    </header>
+
+    @if (cargando) {
+      <section class="estado-panel" aria-live="polite">
+        <span class="indicador-carga" aria-hidden="true"></span>
+        <h2>Cargando resumen</h2>
+        <p>Estamos consultando los datos de PReX.</p>
+      </section>
+    } @else if (mensajeError) {
+      <section class="estado-panel estado-error" role="alert">
+        <div class="estado-icono" aria-hidden="true">!</div>
+        <h2>No pudimos cargar el panel</h2>
+        <p>{{ mensajeError }}</p>
+      </section>
+    } @else {
+      <section class="metricas" aria-label="Resumen administrativo">
+
+        <ion-card class="metrica-card pacientes">
+          <ion-card-header>
+            <p class="card-etiqueta">Usuarios</p>
+            <ion-card-title>{{ resumen.pacientes }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <h2>Total de pacientes</h2>
+            <p>Pacientes activos registrados en la plataforma.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="metrica-card medicos">
+          <ion-card-header>
+            <p class="card-etiqueta">Profesionales</p>
+            <ion-card-title>{{ resumen.medicos }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <h2>Total de m&eacute;dicos</h2>
+            <p>M&eacute;dicos activos disponibles en PReX.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="metrica-card prescripciones">
+          <ion-card-header>
+            <p class="card-etiqueta">Tratamientos</p>
+            <ion-card-title>{{ resumen.prescripciones }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <h2>Total de prescripciones</h2>
+            <p>Prescripciones creadas dentro de la plataforma.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="metrica-card tomas">
+          <ion-card-header>
+            <p class="card-etiqueta">Seguimiento</p>
+            <ion-card-title>{{ resumen.tomas }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <h2>Tomas registradas</h2>
+            <p>Confirmaciones de medicamentos realizadas.</p>
+          </ion-card-content>
+        </ion-card>
+
+      </section>
+
+      <section class="gestion" aria-labelledby="gestion-title">
+        <div>
+          <p class="etiqueta">Administraci&oacute;n</p>
+          <h2 id="gestion-title">Gesti&oacute;n de usuarios</h2>
+          <p>
+            Administra cuentas y revisa tu informaci&oacute;n administrativa.
+          </p>
+        </div>
+
+        <div class="acciones">
+          <button
+            class="accion-card"
+            type="button"
+            (click)="irAMedicos()">
+            <span>Profesionales</span>
+            <strong>Gestionar M&eacute;dicos</strong>
+            <small>Administra las cuentas m&eacute;dicas registradas.</small>
+          </button>
+
+          <button
+            class="accion-card"
+            type="button"
+            (click)="irAPacientes()">
+            <span>Usuarios</span>
+            <strong>Gestionar Pacientes</strong>
+            <small>Consulta y actualiza pacientes registrados.</small>
+          </button>
+
+          <button
+            class="accion-card perfil"
+            type="button"
+            (click)="irAPerfil()">
+            <span>Cuenta</span>
+            <strong>Mi Perfil</strong>
+            <small>Consulta los datos de tu cuenta administrativa.</small>
+          </button>
+        </div>
+      </section>
+    }
+
+  </main>
+
+</ion-content>

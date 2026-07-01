@@ -1,0 +1,186 @@
+<ion-content [fullscreen]="true">
+
+  <main class="pagina-prescripciones">
+
+    <header class="encabezado">
+      <div class="marca" aria-label="PReX">
+        <div class="logo" aria-hidden="true">Rx</div>
+        <span>PReX</span>
+      </div>
+
+      <ion-button
+        class="boton-volver"
+        fill="clear"
+        type="button"
+        (click)="volver()">
+        &larr; Volver
+      </ion-button>
+
+      <p class="etiqueta">Tratamientos</p>
+      <h1>Prescripciones</h1>
+      <p class="descripcion">
+        Revisa, filtra y administra las prescripciones creadas para tus pacientes.
+      </p>
+    </header>
+
+    @if (cargando) {
+      <section class="estado-panel" aria-live="polite">
+        <span class="indicador-carga" aria-hidden="true"></span>
+        <h2>Cargando prescripciones</h2>
+        <p>Estamos consultando los tratamientos creados.</p>
+      </section>
+    } @else if (mensajeError) {
+      <section class="estado-panel estado-error" role="alert">
+        <div class="estado-icono" aria-hidden="true">!</div>
+        <h2>No pudimos mostrar prescripciones</h2>
+        <p>{{ mensajeError }}</p>
+      </section>
+    } @else {
+      <section class="acciones-superiores" aria-label="Acciones de prescripciones">
+        <div>
+          <p class="etiqueta">Listado</p>
+          <h2>Prescripciones creadas</h2>
+          <p>{{ prescripcionesFiltradas.length }} de {{ prescripciones.length }} tratamientos</p>
+        </div>
+
+        <ion-button
+          type="button"
+          (click)="irANuevaPrescripcion()">
+          Nueva Prescripci&oacute;n
+        </ion-button>
+      </section>
+
+      <section class="filtros" aria-label="Filtros de prescripciones">
+        <ion-input
+          label="Buscar"
+          label-placement="stacked"
+          [(ngModel)]="busqueda"
+          placeholder="Paciente o medicamento">
+        </ion-input>
+
+        <ion-select
+          label="Paciente"
+          label-placement="stacked"
+          interface="popover"
+          [(ngModel)]="pacienteFiltro">
+          <ion-select-option value="todos">Todos</ion-select-option>
+          @for (paciente of pacientes; track paciente.id) {
+            <ion-select-option [value]="paciente.id">
+              {{ paciente.nombre }} {{ paciente.apellido }}
+            </ion-select-option>
+          }
+        </ion-select>
+
+        <ion-select
+          label="Estado"
+          label-placement="stacked"
+          interface="popover"
+          [(ngModel)]="estadoFiltro">
+          <ion-select-option value="todos">Todos</ion-select-option>
+          <ion-select-option value="activa">Activa</ion-select-option>
+          <ion-select-option value="procesando">En proceso</ion-select-option>
+          <ion-select-option value="completada">Completada</ion-select-option>
+          <ion-select-option value="anulada">Anulada</ion-select-option>
+        </ion-select>
+      </section>
+
+      @if (prescripciones.length === 0) {
+        <section class="estado-panel">
+          <div class="estado-icono" aria-hidden="true">Rx</div>
+          <h2>No hay prescripciones creadas</h2>
+          <p>Crea una nueva prescripci&oacute;n para iniciar el seguimiento del tratamiento.</p>
+        </section>
+      } @else if (prescripcionesFiltradas.length === 0) {
+        <section class="estado-panel">
+          <div class="estado-icono" aria-hidden="true">Rx</div>
+          <h2>Sin resultados</h2>
+          <p>Ajusta la b&uacute;squeda, el paciente o el estado para ver otros tratamientos.</p>
+        </section>
+      } @else {
+        <section class="lista" aria-label="Prescripciones del medico">
+          @for (prescripcion of prescripcionesFiltradas; track prescripcion.id) {
+            <ion-card class="prescripcion-card">
+              <ion-card-header>
+                <div class="card-titulo">
+                  <div>
+                    <p class="card-etiqueta">{{ obtenerNombrePaciente(prescripcion.pacienteId) }}</p>
+                    <ion-card-title>{{ prescripcion.medicamento }}</ion-card-title>
+                  </div>
+                  <span class="estado" [class.inactivo]="prescripcion.estado === 'anulada'">
+                    {{ formatearEstado(prescripcion.estado) }}
+                  </span>
+                </div>
+              </ion-card-header>
+
+              <ion-card-content>
+                <div class="detalles">
+                  <div>
+                    <span>Dosis</span>
+                    <strong>{{ prescripcion.dosis }}</strong>
+                  </div>
+                  <div>
+                    <span>Frecuencia</span>
+                    <strong>{{ prescripcion.frecuencia }}</strong>
+                  </div>
+                  <div>
+                    <span>Hora</span>
+                    <strong>{{ prescripcion.hora }}</strong>
+                  </div>
+                  <div>
+                    <span>Inicio</span>
+                    <strong>{{ formatearFecha(prescripcion.fechaInicio) }}</strong>
+                  </div>
+                  <div>
+                    <span>Fin</span>
+                    <strong>{{ formatearFecha(prescripcion.fechaFin) }}</strong>
+                  </div>
+                  <div>
+                    <span>Visibilidad</span>
+                    <strong>{{ prescripcion.ocultaParaPaciente ? 'Oculta al paciente' : 'Visible al paciente' }}</strong>
+                  </div>
+                </div>
+
+                @if (prescripcion.observaciones) {
+                  <div class="observaciones">
+                    <span>Observaciones</span>
+                    <p>{{ prescripcion.observaciones }}</p>
+                  </div>
+                }
+
+                @if (puedeCerrarPrescripcion(prescripcion)) {
+                  <div class="acciones-card">
+                    <ion-button
+                      type="button"
+                      fill="outline"
+                      color="success"
+                      (click)="completarPrescripcion(prescripcion)">
+                      Completar
+                    </ion-button>
+
+                    <ion-button
+                      type="button"
+                      fill="outline"
+                      color="warning"
+                      (click)="anularPrescripcion(prescripcion)">
+                      Anular
+                    </ion-button>
+
+                    <ion-button
+                      type="button"
+                      fill="outline"
+                      color="medium"
+                      (click)="alternarVisibilidadPrescripcion(prescripcion)">
+                      {{ textoAccionVisibilidad(prescripcion) }}
+                    </ion-button>
+                  </div>
+                }
+              </ion-card-content>
+            </ion-card>
+          }
+        </section>
+      }
+    }
+
+  </main>
+
+</ion-content>

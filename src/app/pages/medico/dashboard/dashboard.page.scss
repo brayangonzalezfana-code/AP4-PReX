@@ -1,0 +1,116 @@
+ion-content {
+  --background: #eef4f4;
+}
+
+.dashboard {
+  width: 100%;
+  max-width: 980px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 28px 20px 36px;
+}
+
+.encabezado {
+  margin-bottom: 28px;
+}
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+  color: #1e293b;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.logo {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: #14b8a6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+  box-shadow: 0 10px 22px rgba(15, 118, 110, 0.22);
+}
+
+h1 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.tarjeta {
+  min-height: 150px;
+  padding: 22px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1);
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  overflow: hidden;
+}
+
+.tarjeta::before {
+  content: '';
+  width: 58px;
+  height: 6px;
+  border-radius: 999px;
+  position: absolute;
+  top: 22px;
+  left: 22px;
+}
+
+.tarjeta h2 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.pacientes::before {
+  background: #14b8a6;
+}
+
+.prescripciones::before {
+  background: #2563eb;
+}
+
+.seguimiento::before {
+  background: #16a34a;
+}
+
+.reportes::before {
+  background: #7c3aed;
+}
+
+.perfil::before {
+  background: #8b5cf6;
+}
+
+@media (max-width: 640px) {
+  .dashboard {
+    padding: 24px 16px 32px;
+  }
+
+  .tarjetas {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+}

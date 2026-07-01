@@ -1,0 +1,166 @@
+<ion-content [fullscreen]="true">
+
+  <main class="pagina-prescripcion">
+
+    <header class="encabezado">
+
+      <div class="marca" aria-label="PReX">
+
+        <div class="logo" aria-hidden="true">
+          Rx
+        </div>
+
+        <span>PReX</span>
+
+      </div>
+
+      <ion-button
+        class="boton-volver"
+        fill="clear"
+        type="button"
+        (click)="volver()">
+        &larr; Volver
+      </ion-button>
+
+      <div class="titulo">
+        <p class="etiqueta">Prescripciones</p>
+        <h1>Nueva prescripci&oacute;n</h1>
+        <p class="descripcion">
+          Completa la indicaci&oacute;n m&eacute;dica y los detalles del tratamiento.
+        </p>
+      </div>
+
+    </header>
+
+    <section class="formulario-card" aria-labelledby="formulario-title">
+
+      <div class="card-encabezado">
+
+        <div>
+          <p class="paso">Informaci&oacute;n del tratamiento</p>
+          <h2 id="formulario-title">Datos de la prescripci&oacute;n</h2>
+        </div>
+
+        <span class="estado">Nueva</span>
+
+      </div>
+
+      <form class="formulario">
+
+        <div class="campo campo-completo">
+          <label for="paciente">Paciente</label>
+          <ion-select
+            id="paciente"
+            name="paciente"
+            [(ngModel)]="pacienteId"
+            interface="popover"
+            fill="outline"
+            placeholder="Selecciona un paciente">
+
+            <ion-select-option
+              *ngFor="let paciente of pacientes"
+              [value]="paciente.id">
+              {{ paciente.nombre }} {{ paciente.apellido }}
+            </ion-select-option>
+
+          </ion-select>
+        </div>
+
+        <div class="campo">
+          <label for="medicamento">Medicamento</label>
+          <ion-input
+            id="medicamento"
+            name="medicamento"
+            [(ngModel)]="medicamento"
+            type="text"
+            autocomplete="off"
+            placeholder="Ej. Amoxicilina">
+          </ion-input>
+        </div>
+
+        <div class="campo">
+          <label for="dosis">Dosis</label>
+          <ion-input
+            id="dosis"
+            name="dosis"
+            [(ngModel)]="dosis"
+            type="text"
+            autocomplete="off"
+            placeholder="Ej. 500 mg">
+          </ion-input>
+        </div>
+
+        <div class="campo">
+          <label for="frecuencia">Frecuencia</label>
+          <ion-input
+            id="frecuencia"
+            name="frecuencia"
+            [(ngModel)]="frecuencia"
+            type="text"
+            autocomplete="off"
+            placeholder="Ej. Cada 8 horas">
+          </ion-input>
+        </div>
+
+        <div class="campo">
+          <label for="hora">Hora</label>
+          <ion-input
+            id="hora"
+            name="hora"
+            [(ngModel)]="hora"
+            type="time">
+          </ion-input>
+        </div>
+
+        <div class="campo">
+          <label for="fecha-inicio">Fecha de inicio</label>
+          <ion-input
+            id="fecha-inicio"
+            name="fechaInicio"
+            [(ngModel)]="fechaInicio"
+            type="date">
+          </ion-input>
+        </div>
+
+        <div class="campo">
+          <label for="fecha-fin">Fecha de fin</label>
+          <ion-input
+            id="fecha-fin"
+            name="fechaFin"
+            [(ngModel)]="fechaFin"
+            type="date">
+          </ion-input>
+        </div>
+
+        <div class="campo campo-completo">
+          <label for="observaciones">Observaciones</label>
+          <ion-textarea
+            id="observaciones"
+            name="observaciones"
+            [(ngModel)]="observaciones"
+            autoGrow="true"
+            rows="4"
+            placeholder="Indicaciones adicionales, recomendaciones o precauciones">
+          </ion-textarea>
+        </div>
+
+        <div class="acciones campo-completo">
+          <p>
+            Verifica la informaci&oacute;n antes de crear la prescripci&oacute;n.
+          </p>
+
+          <ion-button
+            type="button"
+            (click)="guardarPrescripcion()"
+          >
+            Crear prescripci&oacute;n
+          </ion-button>
+        </div>
+
+      </form>
+
+    </section>
+
+  </main>
+
+</ion-content>

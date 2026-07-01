@@ -1,0 +1,77 @@
+<ion-content [fullscreen]="true">
+
+  <main class="contenedor-login">
+
+    <section class="marca" aria-label="PReX">
+
+      <div class="logo" aria-hidden="true">
+        Rx
+      </div>
+
+      <h1>PReX</h1>
+
+      <p class="subtitulo">
+        Control inteligente de medicamentos
+      </p>
+
+    </section>
+
+    <section class="login-card" aria-labelledby="login-title">
+
+      <h2 id="login-title">
+        Iniciar sesi&oacute;n
+      </h2>
+
+      <div class="campo">
+
+        <label for="usuario">
+          Usuario
+        </label>
+
+        <ion-input
+          id="usuario"
+          [(ngModel)]="usuario"
+          type="text"
+          autocomplete="username"
+          placeholder="Ingresa tu usuario">
+        </ion-input>
+
+      </div>
+
+      <div class="campo">
+
+        <label for="password">
+          Contrase&ntilde;a
+        </label>
+
+        <ion-input
+          id="password"
+          [(ngModel)]="password"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Ingresa tu contrase&ntilde;a">
+        </ion-input>
+
+      </div>
+
+      <ion-button
+        expand="block"
+        type="button"
+        (click)="ingresar()">
+
+        Ingresar
+
+      </ion-button>
+
+      <p class="registro">
+        &iquest;No tienes cuenta?
+        <a routerLink="/register">
+          Registrarse
+        </a>
+      </p>
+
+    </section>
+
+  </main>
+
+</ion-content>

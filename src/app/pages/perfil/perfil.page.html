@@ -1,0 +1,123 @@
+<ion-content [fullscreen]="true">
+
+  <main class="pagina-perfil">
+
+    <header class="encabezado">
+
+      <div class="marca" aria-label="PReX">
+        <div class="logo" aria-hidden="true">Rx</div>
+        <span>PReX</span>
+      </div>
+
+      <ion-button
+        class="boton-volver"
+        fill="clear"
+        type="button"
+        (click)="volver()">
+        &larr; Volver
+      </ion-button>
+
+      <p class="etiqueta">Mi cuenta</p>
+      <h1>Perfil</h1>
+      <p class="descripcion">
+        Consulta la información asociada a tu cuenta.
+      </p>
+
+    </header>
+
+    @if (cargando) {
+      <section class="estado-panel" aria-live="polite">
+        <span class="indicador-carga" aria-hidden="true"></span>
+        <h2>Cargando perfil</h2>
+        <p>Estamos consultando la información de tu cuenta.</p>
+      </section>
+    } @else if (!usuarioActual) {
+      <section class="estado-panel estado-error" role="alert">
+        <div class="estado-icono" aria-hidden="true">!</div>
+        <h2>No pudimos mostrar tu perfil</h2>
+        <p>{{ mensajeError }}</p>
+      </section>
+    } @else {
+      <ion-card class="perfil-card">
+
+        <ion-card-header>
+          <div class="perfil-superior">
+            <div class="identidad">
+              <div class="avatar" aria-hidden="true">
+                {{ usuarioActual.nombre.charAt(0) }}
+                {{ usuarioActual.apellido.charAt(0) }}
+              </div>
+
+              <div>
+                <p class="card-etiqueta">
+                  {{ formatearRol(usuarioActual.rol) }}
+                </p>
+                <ion-card-title>
+                  {{ usuarioActual.nombre }} {{ usuarioActual.apellido }}
+                </ion-card-title>
+              </div>
+            </div>
+
+            <span class="estado-cuenta" [class.inactiva]="!usuarioActual.activo">
+              {{ usuarioActual.activo ? 'Cuenta activa' : 'Cuenta inactiva' }}
+            </span>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+
+          @if (mensajeError) {
+            <p class="mensaje-error" role="alert">{{ mensajeError }}</p>
+          }
+
+          <dl class="datos">
+            <div class="dato">
+              <dt>Nombre</dt>
+              <dd>{{ usuarioActual.nombre }}</dd>
+            </div>
+
+            <div class="dato">
+              <dt>Apellido</dt>
+              <dd>{{ usuarioActual.apellido }}</dd>
+            </div>
+
+            <div class="dato">
+              <dt>Usuario</dt>
+              <dd>{{ usuarioActual.usuario }}</dd>
+            </div>
+
+            <div class="dato">
+              <dt>Correo</dt>
+              <dd>{{ usuarioActual.correo }}</dd>
+            </div>
+
+            <div class="dato">
+              <dt>Rol</dt>
+              <dd>{{ formatearRol(usuarioActual.rol) }}</dd>
+            </div>
+
+            <div class="dato">
+              <dt>Fecha de registro</dt>
+              <dd>{{ formatearFecha(usuarioActual.fechaRegistro) }}</dd>
+            </div>
+          </dl>
+
+          <div class="acciones">
+            <ion-button
+              expand="block"
+              type="button"
+              color="danger"
+              [disabled]="cerrandoSesion"
+              (click)="cerrarSesion()">
+              {{ cerrandoSesion ? 'Cerrando sesión...' : 'Cerrar Sesión' }}
+            </ion-button>
+          </div>
+
+        </ion-card-content>
+
+      </ion-card>
+    }
+
+  </main>
+
+</ion-content>

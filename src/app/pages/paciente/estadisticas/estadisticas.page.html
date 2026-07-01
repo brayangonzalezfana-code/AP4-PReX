@@ -1,0 +1,114 @@
+<ion-content [fullscreen]="true">
+
+  <main class="pagina-estadisticas">
+
+    <header class="encabezado">
+
+      <div class="marca" aria-label="PReX">
+        <div class="logo" aria-hidden="true">Rx</div>
+        <span>PReX</span>
+      </div>
+
+      <ion-button
+        class="boton-volver"
+        fill="clear"
+        type="button"
+        (click)="volver()">
+        &larr; Volver
+      </ion-button>
+
+      <p class="etiqueta">Seguimiento personal</p>
+      <h1>Estadísticas de cumplimiento</h1>
+      <p class="descripcion">
+        Revisa tu actividad y el progreso general de tu tratamiento.
+      </p>
+
+    </header>
+
+    @if (cargando) {
+      <section class="estado-panel" aria-live="polite">
+        <span class="indicador-carga" aria-hidden="true"></span>
+        <h2>Calculando estadísticas</h2>
+        <p>Estamos preparando el resumen de tu tratamiento.</p>
+      </section>
+    } @else if (mensajeError) {
+      <section class="estado-panel estado-error" role="alert">
+        <div class="estado-icono" aria-hidden="true">!</div>
+        <h2>No pudimos mostrar tus estadísticas</h2>
+        <p>{{ mensajeError }}</p>
+      </section>
+    } @else {
+      <section class="tarjetas" aria-label="Resumen de cumplimiento">
+
+        <ion-card class="estadistica-card prescripciones">
+          <ion-card-header>
+            <p class="card-etiqueta">Tratamientos vigentes</p>
+            <ion-card-title>
+              {{ resumen.prescripcionesActivas }}
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <h2>Prescripciones activas</h2>
+            <p>Medicamentos que forman parte de tu tratamiento actual.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="estadistica-card tomas">
+          <ion-card-header>
+            <p class="card-etiqueta">Actividad registrada</p>
+            <ion-card-title>
+              {{ resumen.tomasRegistradas }}
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <h2>Tomas registradas</h2>
+            <p>Confirmaciones de medicamentos que has realizado.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="estadistica-card cumplimiento">
+          <ion-card-header>
+            <p class="card-etiqueta">Estados</p>
+            <ion-card-title>
+              {{ resumen.prescripcionesCompletadas }} / {{ resumen.prescripcionesAnuladas }}
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <h2>Tratamientos</h2>
+            <p>Completados y anulados de forma histórica.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="estadistica-card cumplimiento">
+          <ion-card-header>
+            <p class="card-etiqueta">Progreso mensual</p>
+            <ion-card-title>
+              {{ resumen.cumplimiento }}%
+            </ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <h2>Cumplimiento</h2>
+            <p>Estimación inicial basada en una meta de 30 tomas.</p>
+
+            <div
+              class="barra-progreso"
+              role="progressbar"
+              aria-label="Porcentaje de cumplimiento"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              [attr.aria-valuenow]="resumen.cumplimiento">
+              <span [style.width.%]="resumen.cumplimiento"></span>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+      </section>
+    }
+
+  </main>
+
+</ion-content>

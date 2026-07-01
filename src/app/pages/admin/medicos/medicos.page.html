@@ -1,0 +1,147 @@
+<ion-content [fullscreen]="true">
+
+  <main class="pagina-admin">
+
+    <header class="encabezado">
+      <div class="marca" aria-label="PReX">
+        <div class="logo" aria-hidden="true">Rx</div>
+        <span>PReX</span>
+      </div>
+
+      <ion-button
+        class="boton-volver"
+        fill="clear"
+        type="button"
+        (click)="volver()">
+        &larr; Volver
+      </ion-button>
+
+      <p class="etiqueta">Administraci&oacute;n</p>
+      <h1>Gesti&oacute;n de m&eacute;dicos</h1>
+      <p class="descripcion">
+        Crea nuevos m&eacute;dicos y administra el estado de sus cuentas.
+      </p>
+    </header>
+
+    <section class="formulario-card" aria-labelledby="formulario-medico">
+      <div>
+        <p class="etiqueta">Nuevo m&eacute;dico</p>
+        <h2 id="formulario-medico">Datos de acceso</h2>
+      </div>
+
+      <form class="formulario">
+        <div class="campo">
+          <label for="nombre">Nombre</label>
+          <ion-input id="nombre" name="nombre" [(ngModel)]="nombre" type="text"></ion-input>
+        </div>
+
+        <div class="campo">
+          <label for="apellido">Apellido</label>
+          <ion-input id="apellido" name="apellido" [(ngModel)]="apellido" type="text"></ion-input>
+        </div>
+
+        <div class="campo">
+          <label for="correo">Correo</label>
+          <ion-input id="correo" name="correo" [(ngModel)]="correo" type="email"></ion-input>
+        </div>
+
+        <div class="campo">
+          <label for="usuario">Usuario</label>
+          <ion-input id="usuario" name="usuario" [(ngModel)]="usuario" type="text"></ion-input>
+        </div>
+
+        <div class="campo">
+          <label for="password">Contrase&ntilde;a</label>
+          <ion-input id="password" name="password" [(ngModel)]="password" type="password"></ion-input>
+        </div>
+
+        <div class="acciones-form">
+          <ion-button type="button" (click)="crearMedico()">
+            Crear m&eacute;dico
+          </ion-button>
+        </div>
+      </form>
+    </section>
+
+    @if (cargando) {
+      <section class="estado-panel" aria-live="polite">
+        <span class="indicador-carga" aria-hidden="true"></span>
+        <h2>Cargando m&eacute;dicos</h2>
+        <p>Estamos consultando los usuarios m&eacute;dicos.</p>
+      </section>
+    } @else if (mensajeError) {
+      <section class="estado-panel estado-error" role="alert">
+        <div class="estado-icono" aria-hidden="true">!</div>
+        <h2>No pudimos mostrar m&eacute;dicos</h2>
+        <p>{{ mensajeError }}</p>
+      </section>
+    } @else if (medicos.length === 0) {
+      <section class="estado-panel">
+        <div class="estado-icono" aria-hidden="true">Rx</div>
+        <h2>No hay m&eacute;dicos registrados</h2>
+        <p>Crea el primer m&eacute;dico desde el formulario superior.</p>
+      </section>
+    } @else {
+      <section class="busqueda-card" aria-label="Buscar medicos">
+        <ion-input
+          label="Buscar m&eacute;dico"
+          label-placement="stacked"
+          [(ngModel)]="busquedaMedicos"
+          placeholder="Nombre, apellido, usuario o correo">
+        </ion-input>
+        <p class="contador-resultados">
+          {{ medicosFiltrados.length }} de {{ medicos.length }} m&eacute;dicos
+        </p>
+      </section>
+
+      @if (medicosFiltrados.length === 0) {
+        <section class="estado-panel">
+          <div class="estado-icono" aria-hidden="true">Rx</div>
+          <h2>Sin resultados</h2>
+          <p>No encontramos m&eacute;dicos con esa b&uacute;squeda.</p>
+        </section>
+      } @else {
+        <section class="lista" aria-label="Medicos registrados">
+          @for (medico of medicosFiltrados; track medico.id) {
+            <ion-card class="item-card">
+              <ion-card-header>
+                <div class="card-titulo">
+                  <div>
+                    <p class="card-etiqueta">M&eacute;dico</p>
+                    <ion-card-title>{{ medico.nombre }} {{ medico.apellido }}</ion-card-title>
+                  </div>
+                  <span class="estado" [class.inactivo]="!medico.activo">
+                    {{ medico.activo ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </div>
+              </ion-card-header>
+
+              <ion-card-content>
+                <div class="detalles">
+                  <div>
+                    <span>Usuario</span>
+                    <strong>{{ medico.usuario }}</strong>
+                  </div>
+                  <div>
+                    <span>Correo</span>
+                    <strong>{{ medico.correo }}</strong>
+                  </div>
+                </div>
+
+                <ion-button
+                  class="boton-estado"
+                  type="button"
+                  fill="outline"
+                  (click)="cambiarEstado(medico)">
+                  {{ medico.activo ? 'Desactivar' : 'Activar' }}
+                </ion-button>
+              </ion-card-content>
+            </ion-card>
+          }
+        </section>
+      }
+    }
+
+  </main>
+
+</ion-content>

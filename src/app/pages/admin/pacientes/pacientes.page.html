@@ -1,0 +1,107 @@
+<ion-content [fullscreen]="true">
+
+  <main class="pagina-admin">
+
+    <header class="encabezado">
+      <div class="marca" aria-label="PReX">
+        <div class="logo" aria-hidden="true">Rx</div>
+        <span>PReX</span>
+      </div>
+
+      <ion-button
+        class="boton-volver"
+        fill="clear"
+        type="button"
+        (click)="volver()">
+        &larr; Volver
+      </ion-button>
+
+      <p class="etiqueta">Administraci&oacute;n</p>
+      <h1>Gesti&oacute;n de pacientes</h1>
+      <p class="descripcion">
+        Consulta y administra el estado de los pacientes registrados.
+      </p>
+    </header>
+
+    @if (cargando) {
+      <section class="estado-panel" aria-live="polite">
+        <span class="indicador-carga" aria-hidden="true"></span>
+        <h2>Cargando pacientes</h2>
+        <p>Estamos consultando los pacientes registrados.</p>
+      </section>
+    } @else if (mensajeError) {
+      <section class="estado-panel estado-error" role="alert">
+        <div class="estado-icono" aria-hidden="true">!</div>
+        <h2>No pudimos mostrar pacientes</h2>
+        <p>{{ mensajeError }}</p>
+      </section>
+    } @else if (pacientes.length === 0) {
+      <section class="estado-panel">
+        <div class="estado-icono" aria-hidden="true">Rx</div>
+        <h2>No hay pacientes registrados</h2>
+        <p>Cuando se registren pacientes, aparecer&aacute;n aqu&iacute;.</p>
+      </section>
+    } @else {
+      <section class="busqueda-card" aria-label="Buscar pacientes">
+        <ion-input
+          label="Buscar paciente"
+          label-placement="stacked"
+          [(ngModel)]="busquedaPacientes"
+          placeholder="Nombre, apellido, usuario o correo">
+        </ion-input>
+        <p class="contador-resultados">
+          {{ pacientesFiltrados.length }} de {{ pacientes.length }} pacientes
+        </p>
+      </section>
+
+      @if (pacientesFiltrados.length === 0) {
+        <section class="estado-panel">
+          <div class="estado-icono" aria-hidden="true">Rx</div>
+          <h2>Sin resultados</h2>
+          <p>No encontramos pacientes con esa b&uacute;squeda.</p>
+        </section>
+      } @else {
+        <section class="lista" aria-label="Pacientes registrados">
+          @for (paciente of pacientesFiltrados; track paciente.id) {
+            <ion-card class="item-card">
+              <ion-card-header>
+                <div class="card-titulo">
+                  <div>
+                    <p class="card-etiqueta">Paciente</p>
+                    <ion-card-title>{{ paciente.nombre }} {{ paciente.apellido }}</ion-card-title>
+                  </div>
+                  <span class="estado" [class.inactivo]="!paciente.activo">
+                    {{ paciente.activo ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </div>
+              </ion-card-header>
+
+              <ion-card-content>
+                <div class="detalles">
+                  <div>
+                    <span>Usuario</span>
+                    <strong>{{ paciente.usuario }}</strong>
+                  </div>
+                  <div>
+                    <span>Correo</span>
+                    <strong>{{ paciente.correo }}</strong>
+                  </div>
+                </div>
+
+                <ion-button
+                  class="boton-estado"
+                  type="button"
+                  fill="outline"
+                  (click)="cambiarEstado(paciente)">
+                  {{ paciente.activo ? 'Desactivar' : 'Activar' }}
+                </ion-button>
+              </ion-card-content>
+            </ion-card>
+          }
+        </section>
+      }
+    }
+
+  </main>
+
+</ion-content>

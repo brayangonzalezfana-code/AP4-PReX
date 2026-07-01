@@ -1,0 +1,157 @@
+<ion-content [fullscreen]="true">
+
+  <main class="pagina-listado">
+
+    <header class="encabezado">
+      <div class="marca" aria-label="PReX">
+        <div class="logo" aria-hidden="true">Rx</div>
+        <span>PReX</span>
+      </div>
+
+      <ion-button
+        class="boton-volver"
+        fill="clear"
+        type="button"
+        (click)="volver()">
+        &larr; Volver
+      </ion-button>
+
+      <p class="etiqueta">Seguimiento m&eacute;dico</p>
+      <h1>Seguimiento</h1>
+      <p class="descripcion">
+        Revisa tratamientos, prescripciones y tomas por paciente.
+      </p>
+    </header>
+
+    @if (cargando) {
+      <section class="estado-panel" aria-live="polite">
+        <span class="indicador-carga" aria-hidden="true"></span>
+        <h2>Cargando seguimiento</h2>
+        <p>Estamos preparando la informaci&oacute;n de pacientes.</p>
+      </section>
+    } @else if (mensajeError) {
+      <section class="estado-panel estado-error" role="alert">
+        <div class="estado-icono" aria-hidden="true">!</div>
+        <h2>No pudimos mostrar seguimiento</h2>
+        <p>{{ mensajeError }}</p>
+      </section>
+    } @else {
+      <section class="filtros-seguimiento" aria-label="Filtros de seguimiento">
+        <ion-input
+          label="Buscar"
+          label-placement="stacked"
+          [(ngModel)]="busqueda"
+          placeholder="Buscar paciente o medicamento">
+        </ion-input>
+
+        <ion-select
+          label="Estado"
+          label-placement="stacked"
+          interface="popover"
+          [(ngModel)]="estadoFiltro">
+          <ion-select-option value="todos">Todos los estados</ion-select-option>
+          <ion-select-option value="activa">Activa</ion-select-option>
+          <ion-select-option value="procesando">En proceso</ion-select-option>
+          <ion-select-option value="completada">Completada</ion-select-option>
+          <ion-select-option value="anulada">Anulada</ion-select-option>
+        </ion-select>
+      </section>
+
+      @if (seguimientos.length === 0) {
+        <section class="estado-panel">
+          <div class="estado-icono" aria-hidden="true">Rx</div>
+          <h2>No hay seguimiento disponible</h2>
+          <p>El seguimiento aparecer&aacute; cuando tengas prescripciones creadas.</p>
+        </section>
+      } @else if (seguimientosFiltrados.length === 0) {
+        <section class="estado-panel">
+          <div class="estado-icono" aria-hidden="true">Rx</div>
+          <h2>No se encontraron tratamientos para este filtro</h2>
+          <p>Ajusta la b&uacute;squeda o el estado para revisar otros seguimientos.</p>
+        </section>
+      } @else {
+        <section class="lista" aria-label="Seguimiento por paciente">
+          @for (seguimiento of seguimientosFiltrados; track seguimiento.paciente.id) {
+            <ion-card class="item-card">
+              <ion-card-header>
+                <p class="card-etiqueta">Paciente</p>
+                <ion-card-title>
+                  {{ seguimiento.paciente.nombre }} {{ seguimiento.paciente.apellido }}
+                </ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>
+                <div class="metricas">
+                  <div>
+                    <span>Prescripciones</span>
+                    <strong>{{ seguimiento.prescripciones.length }}</strong>
+                  </div>
+                  <div>
+                    <span>Activas</span>
+                    <strong>{{ seguimiento.tratamientosActivos }}</strong>
+                  </div>
+                  <div>
+                    <span>Completados</span>
+                    <strong>{{ seguimiento.tratamientosCompletados }}</strong>
+                  </div>
+                  <div>
+                    <span>Anulados</span>
+                    <strong>{{ seguimiento.tratamientosAnulados }}</strong>
+                  </div>
+                  <div>
+                    <span>Tomas</span>
+                    <strong>{{ seguimiento.tomas }}</strong>
+                  </div>
+                  <div>
+                    <span>Adherencia</span>
+                    <strong>{{ seguimiento.adherencia }}%</strong>
+                  </div>
+                </div>
+
+                @if (seguimiento.prescripciones.length === 0) {
+                  <p class="nota">Sin prescripciones registradas.</p>
+                } @else {
+                  <div class="tratamientos">
+                    @for (prescripcion of seguimiento.prescripciones; track prescripcion.id) {
+                      <div class="tratamiento">
+                        <span>{{ formatearEstadoPrescripcion(prescripcion.estado) }}</span>
+                        <strong>{{ prescripcion.medicamento }}</strong>
+                        <small>{{ prescripcion.dosis }} - {{ prescripcion.frecuencia }}</small>
+                        @if (debeMostrarBotonCompletar(prescripcion) || debeMostrarBotonAnular(prescripcion)) {
+                          <div class="acciones-tratamiento">
+                            @if (debeMostrarBotonCompletar(prescripcion)) {
+                              <ion-button
+                                size="small"
+                                fill="outline"
+                                color="success"
+                                type="button"
+                                (click)="completarPrescripcion(prescripcion)">
+                                Completar tratamiento
+                              </ion-button>
+                            }
+                            @if (debeMostrarBotonAnular(prescripcion)) {
+                              <ion-button
+                                size="small"
+                                fill="outline"
+                                color="warning"
+                                type="button"
+                                (click)="anularPrescripcion(prescripcion)">
+                                Anular tratamiento
+                              </ion-button>
+                            }
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              </ion-card-content>
+            </ion-card>
+          }
+        </section>
+      }
+    }
+
+  </main>
+
+</ion-content>

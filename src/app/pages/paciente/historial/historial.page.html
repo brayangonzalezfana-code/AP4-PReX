@@ -1,0 +1,136 @@
+<ion-content [fullscreen]="true">
+
+  <main class="pagina-listado">
+
+    <header class="encabezado">
+      <div class="marca" aria-label="PReX">
+        <div class="logo" aria-hidden="true">Rx</div>
+        <span>PReX</span>
+      </div>
+
+      <ion-button
+        class="boton-volver"
+        fill="clear"
+        type="button"
+        (click)="volver()">
+        &larr; Volver
+      </ion-button>
+
+      <p class="etiqueta">Seguimiento personal</p>
+      <h1>Historial de tomas</h1>
+      <p class="descripcion">
+        Revisa las confirmaciones de medicamentos registradas.
+      </p>
+    </header>
+
+    @if (cargando) {
+      <section class="estado-panel" aria-live="polite">
+        <span class="indicador-carga" aria-hidden="true"></span>
+        <h2>Cargando historial</h2>
+        <p>Estamos consultando tus tomas registradas.</p>
+      </section>
+    } @else if (mensajeError) {
+      <section class="estado-panel estado-error" role="alert">
+        <div class="estado-icono" aria-hidden="true">!</div>
+        <h2>No pudimos mostrar el historial</h2>
+        <p>{{ mensajeError }}</p>
+      </section>
+    } @else if (tomas.length === 0) {
+      <section class="estado-panel">
+        <div class="estado-icono" aria-hidden="true">Rx</div>
+        <h2>A&uacute;n no hay tomas registradas</h2>
+        <p>Cuando marques medicamentos como tomados, aparecer&aacute;n aqu&iacute;.</p>
+      </section>
+    } @else {
+      <section class="filtros-historial" aria-label="Filtrar historial de tomas">
+        <ion-select
+          label="M&eacute;dico"
+          label-placement="stacked"
+          interface="popover"
+          [(ngModel)]="medicoFiltro">
+          <ion-select-option value="todos">Todos los m&eacute;dicos</ion-select-option>
+          @for (medico of medicos; track medico.id) {
+            <ion-select-option [value]="medico.id">
+              {{ medico.nombre }} {{ medico.apellido }}
+            </ion-select-option>
+          }
+        </ion-select>
+
+        <ion-input
+          label="Desde"
+          label-placement="stacked"
+          type="date"
+          [(ngModel)]="fechaDesde">
+        </ion-input>
+
+        <ion-input
+          label="Hasta"
+          label-placement="stacked"
+          type="date"
+          [(ngModel)]="fechaHasta">
+        </ion-input>
+
+        @if (tieneFiltrosActivos()) {
+          <ion-button
+            fill="outline"
+            type="button"
+            (click)="limpiarFiltros()">
+            Limpiar filtros
+          </ion-button>
+        }
+      </section>
+
+      @if (tomasFiltradas.length === 0) {
+        <section class="estado-panel">
+          <div class="estado-icono" aria-hidden="true">Rx</div>
+          <h2>Sin tomas en este rango</h2>
+          <p>Ajusta las fechas para revisar otros registros.</p>
+        </section>
+      } @else {
+        <section class="lista" aria-label="Historial de tomas">
+          @for (detalle of tomasFiltradas; track detalle.toma.id) {
+            <ion-card class="item-card">
+              <ion-card-header>
+                <p class="card-etiqueta">Medicamento</p>
+                <ion-card-title>
+                  {{ detalle.prescripcion?.medicamento || 'Medicamento no disponible' }}
+                </ion-card-title>
+              </ion-card-header>
+
+              <ion-card-content>
+                <div class="detalles">
+                  <div>
+                    <span>Fecha</span>
+                    <strong>{{ formatearFecha(detalle.toma.fecha) }}</strong>
+                  </div>
+                  <div>
+                    <span>Hora registrada</span>
+                    <strong>{{ detalle.toma.hora }}</strong>
+                  </div>
+                  <div>
+                    <span>M&eacute;dico</span>
+                    <strong>{{ obtenerNombreMedico(detalle.prescripcion?.medicoId) }}</strong>
+                  </div>
+                  <div>
+                    <span>Dosis</span>
+                    <strong>{{ detalle.prescripcion?.dosis || 'No disponible' }}</strong>
+                  </div>
+                  <div>
+                    <span>Frecuencia</span>
+                    <strong>{{ detalle.prescripcion?.frecuencia || 'No disponible' }}</strong>
+                  </div>
+                  <div>
+                    <span>Estado</span>
+                    <strong>{{ formatearEstado(detalle.estado) }}</strong>
+                  </div>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          }
+        </section>
+      }
+    }
+
+  </main>
+
+</ion-content>
